@@ -1,0 +1,34 @@
+<section>
+    <div class="container">
+        <div class="row" style="margin-top: 5%;">
+            <h1>Edit Product</h1>
+
+            <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data" style="width: 100%;">
+                
+                <label for="" style="margin-top: 2%;">Product</label>
+                <input type="text" name="Product" class="form-control" placeholder="product title" style="width: 30%;" value="{{product.Product}}" />
+
+                <label for="" style="margin-top: 2%;">Price</label>
+                <input type="number" name="Price" class="form-control" placeholder="price" style="width: 30%;" value="{{product.Price}}" />
+
+                <label for="" style="margin-top: 2%;">Category</label>
+                <input type="text" name="Category" class="form-control" placeholder="category" style="width: 30%;" value="{{product.Category}}" />
+
+                <img src="/product-images/{{product._id}}.jpg" alt="" style="width: 10%; height: auto;" id="imgView">
+
+                <label for="exampleFormControlFile1" style="margin-top: 2%;">Image</label>
+                <input type="file" name="Image" class="form-control" style="width: 30%;" onchange="viewImage(event)">
+
+                
+
+                <button type="submit" class="btn btn-success" style="margin-top: 2%;">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>

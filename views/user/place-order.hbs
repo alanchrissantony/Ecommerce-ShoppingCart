@@ -1,0 +1,130 @@
+<section>
+    <div class="container">
+        <div class="leftbox" style="width: 30%; margin-left: 10%; margin-top: 5%;">
+            <h2>Enter Delivery Detials</h2>
+            <form id="checkout-form" action="" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        placeholder="Enter Address" name="Address" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Pincode</label>
+                    <input type="number" class="form-control" id="exampleInputPassword1" placeholder="Pincode"
+                        name="Pincode" />
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Mobile Number</label>
+                    <input type="tel" class="form-control" id="exampleInputPassword1" placeholder="Mobile Number"
+                      name="Mobile" />
+                    <input type="text" name="userId" value="{{user._id}}" hidden>
+                    <div class="form-group"
+                    style="width: 100%; height: 14rem; background-color: rgb(240, 240, 240); margin-left: 160%; margin-top: -70%;">
+                    <h4 style="padding-top: 10px; padding-left: 10%;">Total Amount : Rs.{{total}}</h4>
+                    <hr>
+                    <h5 style="padding-left: 5%;">Payment Method</h5>
+                    <div class="form-check ml-3">
+                        <input class="form-check-input" type="radio" name="Payment-method" value="ONLINE"
+                            id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Online Payment
+                        </label>
+                    </div>
+                    <div class="form-check ml-3">
+                        <input class="form-check-input" type="radio" name="Payment-method" value="COD"
+                            id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Cash On Delivery
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-3" style="margin-left: 60%;">Checkout</button>
+                </div>    
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    
+    $('#checkout-form').submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+        url:'/place-order',
+        data:$('#checkout-form').serialize(),
+        method:'post',
+        success:(response)=>{
+            if(response.COD){
+                alert('Order Placed Successfully')
+                location.href='/order'
+            }
+            else{
+                razorpayPayment(response)
+            }
+        }
+    })
+})
+
+
+function razorpayPayment(order){
+         $.ajax({
+           success:()=>{
+            var options = {
+            
+              "key": "rzp_test_nD2lLN22mfadh7", // Enter the Key ID generated from the Dashboard
+              "key_secret": 'EZp5u2Rbp2qEFNDpy26a4bMq',
+              "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+              "currency": "INR",
+              "name": "Shopping Cart",
+              "description": "Test Transaction",
+              "image": "https://example.com/your_logo",
+              "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the previous step
+              "handler": function (response){
+                  
+                  
+                  verifyPayment(response,order)
+              },
+              "prefill": {
+                  "name": "Alan Chriss",
+                  "email": "alanchriss112114@gmail.com",
+                  "contact": "9539968898"
+              },
+              "notes": {
+                  "address": "Razorpay Corporate Office"
+              },
+              "theme": {
+                  "color": "#3399cc"
+              }
+          };
+          var rzp1 = new Razorpay(options);
+          rzp1.open();
+           }
+          
+         })
+          
+        }
+        function verifyPayment(payment,order){
+          console.log('api verifyPayment')
+          $.ajax({
+              url:'/verify-payment',
+              data:{
+                  payment,
+                  order
+              },
+              method:'post',
+              success:(response)=>{
+                  if(response.status){
+                      alert('Payment Success')
+                      alert('Order Placed')
+                      location.href='/order'
+                  }else{
+                      alert('Payment Failed')
+                      location.href='/'
+                  }
+              }
+          })
+      }
+
+
+
+</script>

@@ -1,0 +1,33 @@
+<section>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Item</th>
+        <th scope="col">Product</th>
+        <th scope="col">Price</th>
+        <th scope="col">Category</th>
+        <th scope="col">Quantity</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    {{#each products}}
+    <tbody>
+      <tr>
+        <td><img src="/product-images/{{this.product._id}}.jpg" alt="" style="width: 50px; height: auto;"></td>
+        <td><h6 style="margin-top: 25px;">{{this.product.Product}}</h6></td>
+        <td><h6 style="margin-top: 25px;">{{this.product.Price}}</h6></td>
+        <td><h6 style="margin-top: 25px;">{{this.product.Category}}</h6></td>
+        <td><button  style="margin-top: 15px;"  class="cart-item-count mr-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button><span id="{{this.product._id}}">{{this.quantity}}</span><button class="cart-item-count ml-3" onclick="changeQuantity('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button></td>
+        <td><button class="btn btn-danger mt-3" onclick="removeProduct('{{this._id}}','{{this.product._id}}')">Remove</button></td>
+      </tr>
+    </tbody>
+    {{/each}}
+  </table>
+</section>
+<hr>
+<section>
+
+  <h3 style="margin-left: 77%;">Total : Rs.<span id="total">{{total}}</span></h3>
+  <a href="/place-order" class="btn btn-success" style="margin-left: 82%;">Place Order</a>
+
+</section>
