@@ -21,7 +21,13 @@ NOTE: Please read the RUN section before opening an issue.
 
 ## Demo
 
-![screenshot](screenshot.png)
+<p align="center">
+<img src="https://imgur.com/63EKtfT.jpg"/>
+<img src="https://imgur.com/IIYrNf8.jpg"/>
+<img src="https://imgur.com/V2UvOoG.jpg"/>
+<img src="https://imgur.com/VSnxsjR.jpg"/>
+<img src="https://imgur.com/jsBgiqK.jpg"/>
+</p>
 
 
 The website resembles a real store and you can add products to your cart and pay for them. If you want to try the checkout process, you can use the dummy card number with any expiration date, CVC, and zip codes. Please <u><b>DO NOT</b></u> provide real card number and data.
@@ -57,13 +63,11 @@ Users can do the following:
 - Add products to the shopping cart, a user must be logged in
 - Delete products from the shopping cart
 - Display the shopping cart
-- Checkout information is processed using stripe and the payment is send to the admin
 - The profile contains all the orders a user has made
 
 Admins can do the following:
 
-- Login or logout to the admin panel
-- View all the information stored in the database. They can view/add/edit/delete orders, users, products and categories. The cart model cannot be modified by an admin because a cart is either modified by the logged in user before the purchase or deleted after the purchase.
+- View all the information stored in the database. They can view/add/edit/delete orders, products and categories.
 
 ## Database
 
@@ -81,37 +85,38 @@ All the models can be found in the models directory created using mongoose.
 - imagePath (String)
 - description (String)
 - price (Number)
-- category (ObjectId - a reference to the category schema)
+- category (ObjectId - a reference to the category)
 - createdAt (Date)
 
 ### Cart:
 
 - items: an array of objects, each object contains: <br>
-  ~ productId (ObjectId - a reference to the product schema) <br>
+  ~ productId (ObjectId - a reference to the product) <br>
   ~ qty (Number) <br>
   ~ price (Number) <br>
   ~ title (String) <br>
-  ~ productCode (Number) <br>
 - totalQty (Number)
 - totalCost (Number)
-- user (ObjectId - a reference to the user schema)
+- user (ObjectId - a reference to the user)
 - createdAt
   <br><br>
-  \*\*The reason for including the title, price, and productCode again in the items object is AdminBro. If we are to write our own admin interface, we can remove them and instead populate a product field using the product id. However, AdminBro doesn't populate deep levels, so we had to repeat these fields in the items array in order to display them in the admin panel.
+  
+  
+### Payment:
+  
+- Cash On Delivery
+- Online Payment(Razorpay Payment Gateway)  
+  
 
 ### Order:
 
 - user (ObjectId - a reference to the user)
-- cart (instead of a reference, we had to structure an object identical to the cart schema because of AdminBro, so we can display the cart's contents in the admin interface under each order)
+- cart (instead of a reference, we had to structure an object identical to the cart)
 - address (String)
 - paymentId (String)
 - createdAt (Date)
 - Delivered (Boolean)
 
+  
 
-## License
-
-[![License](https://img.shields.io/:License-MIT-blue.svg?style=flat-square)](http://badges.mit-license.org)
-
-- MIT License
-- Copyright 2021 © [Alan Chriss Antony](https://github.com/alanchrissantony)
+[Alan Chriss Antony](https://github.com/alanchrissantony)
