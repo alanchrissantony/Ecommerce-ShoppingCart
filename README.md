@@ -53,7 +53,7 @@ The application is built with:
 
 ## Features
 
-The application displays a virtual store that contains virtual products.
+The application displays a virtual store that contains products.
 
 Users can do the following:
 
