@@ -4,8 +4,8 @@ const state={
 }
 
 module.exports.connect=function(done){
-    const url='mongodb://localhost:27017'
-    const dbname='shopping'
+    const url='mongodb+srv://alanchrissantony:EIBoBHCtrZBDaVGA@shoppingcart.qiubg9t.mongodb.net/?retryWrites=true&w=majority&appName=ShoppingCart'
+    const dbname='ShoppingCart'
 
     mongoClint.connect(url,(err,data)=>{
         if(err) return done(err)
